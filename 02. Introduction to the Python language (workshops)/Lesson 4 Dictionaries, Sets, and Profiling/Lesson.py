@@ -10,19 +10,19 @@ Output: a a_1 a_2 b c a_3 a_4 d c_1 d_1 d_2
 
 
 def task1(input_str):
-	char_count = {}
+    char_count = {}
 
-	characters = input_str.split()
+    characters = input_str.split()
 
-	for char in characters:
-		if char in char_count:
-			# char_count[char] += 1
-			print(f"{char}_{char_count[char]}", end=" ")
-		else:
-			# char_count[char] = 0  # a = 0 -> a a = 1
-			print(char, end=" ")
-		char_count[char] = char_count.get(char, 0) + 1
-	# return ' '.join(result)
+    for char in characters:
+        if char in char_count:
+            # char_count[char] += 1
+            print(f"{char}_{char_count[char]}", end=" ")
+        else:
+            # char_count[char] = 0  # a = 0 -> a a = 1
+            print(char, end=" ")
+        char_count[char] = char_count.get(char, 0) + 1
+    # return ' '.join(result)
 
 
 input_str = "a a a b c a a d c d d"  # a a_1 a_2 b c a_3 a_4 d c_1 d_1 d_2

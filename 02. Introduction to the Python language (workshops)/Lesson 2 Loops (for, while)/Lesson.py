@@ -13,8 +13,8 @@ n = 5
 f = 1
 
 while n > 0:
-	f *= n
-	n -= 1
+    f *= n
+    n -= 1
 
 print(f)
 
@@ -34,12 +34,12 @@ i1 = 0
 i2 = 1
 
 while i2 <= n:
-	temp = i1 + i2
-	i1 = i2
-	i2 = temp
-	count += 1
+    temp = i1 + i2
+    i1 = i2
+    i2 = temp
+    count += 1
 
 if n == i1:
-	print(count)
+    print(count)
 else:
-	print("-1")
+    print("-1")

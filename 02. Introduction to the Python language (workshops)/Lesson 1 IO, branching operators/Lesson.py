@@ -39,6 +39,6 @@ c = 5
 
 
 if a + b > c and b + c > a and a + c > b:
-	print("Yes")
+    print("Yes")
 else:
-	print("No")
+    print("No")

@@ -16,10 +16,10 @@ count1 = 0
 count2 = 0
 
 for i in coins:
-	if i:
-		count1 += 1
-	else:
-		count2 += 1
+    if i:
+        count1 += 1
+    else:
+        count2 += 1
 
 print(min(count1, count2))
 
@@ -44,13 +44,13 @@ s = 12
 p = 27
 
 for x in range(1, 1001):
-	if (x * (s - x) == p) and (x <= s - x):
-		print(x, s - x)
+    if (x * (s - x) == p) and (x <= s - x):
+        print(x, s - x)
 
 # Второй вариант решения
 x = 1
 while x < 1000 and (x * (s - x) != p):
-	x += 1
+    x += 1
 
 print(x, s - x)
 
@@ -71,5 +71,5 @@ n = 16
 res = 1
 
 while res <= n:
-	print(res)
-	res *= 2
+    print(res)
+    res *= 2

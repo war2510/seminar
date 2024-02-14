@@ -10,8 +10,8 @@ arr = [1, 1, 2, 0, -1, 3, 4, 4]
 arr_un = []
 
 for i in arr:
-	if i not in arr_un:
-		arr_un.append(i)
+    if i not in arr_un:
+        arr_un.append(i)
 print(len(arr_un))
 print()
 
@@ -33,9 +33,9 @@ print(arr_un)
 
 # Второй вариант решения
 def move(lst, steps):
-	if steps > 0:
-		for i in range(steps):
-			lst.insert(0, lst.pop())
+    if steps > 0:
+        for i in range(steps):
+            lst.insert(0, lst.pop())
 
 
 move(arr, k)
@@ -49,34 +49,34 @@ Output: {'S005', 'S002', 'S007', 'S001', 'S009'}
 """
 
 dic = [
-	{"V": "S001"},
-	{"V": "S002"},
-	{"VI": "S001"},
-	{"VI": "S005"},
-	{"VII": " S005 "},
-	{" V ": " S009 "},
-	{" VIII ": " S007 "},
+    {"V": "S001"},
+    {"V": "S002"},
+    {"VI": "S001"},
+    {"VI": "S005"},
+    {"VII": " S005 "},
+    {" V ": " S009 "},
+    {" VIII ": " S007 "},
 ]
 
 s = set()
 for i in dic:
-	for k, v in i.items():
-		s.add(v)
+    for k, v in i.items():
+        s.add(v)
 print(sorted(s))
 
 # Второй вариант решения
 s = set()
 for i in dic:
-	for v in i.values():
-		s.add(v)
+    for v in i.values():
+        s.add(v)
 print(sorted(s))
 
 # Третий вариант решения
 s = set()
 
 for i in dic:
-	for j in i:
-		s.add(i[j])
+    for j in i:
+        s.add(i[j])
 print(sorted(s))
 print()
 
@@ -95,11 +95,11 @@ dic = dic.split()
 d = {}
 
 for i in dic:
-	key = i[:2]
-	val = i
-	try:
-		d[key].append(val)
-	except KeyError:
-		d[key] = [val]
+    key = i[:2]
+    val = i
+    try:
+        d[key].append(val)
+    except KeyError:
+        d[key] = [val]
 
 print(*sorted(d.items()))

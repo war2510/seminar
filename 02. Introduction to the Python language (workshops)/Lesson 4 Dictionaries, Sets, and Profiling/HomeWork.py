@@ -27,11 +27,11 @@ arr = [5, 8, 6, 4, 9, 2, 7, 3]
 res = 0 if len(arr) < 3 else sum(arr[:3])
 
 for i in range(len(arr)):
-	# Использование модульной арифметики для циклического обращения к элементам
-	# sum_current = arr[i] + arr[(i + 1) % len(arr)] + arr[(i + 2) % len(arr)]
-	sum_current = arr[i] + arr[i - 1] + arr[i - 2]
+    # Использование модульной арифметики для циклического обращения к элементам
+    # sum_current = arr[i] + arr[(i + 1) % len(arr)] + arr[(i + 2) % len(arr)]
+    sum_current = arr[i] + arr[i - 1] + arr[i - 2]
 
-	res = max(res, sum_current)
+    res = max(res, sum_current)
 
 
 print(res)

@@ -30,7 +30,7 @@ print(dictionary["left"])  # ⇐
 print(dictionary["type"])  # KeyError: 'type'
 del dictionary["left"]  # удаление элемента
 for item in dictionary:  # for (k,v) in dictionary.items():
-	print("{}: {}".format(item, dictionary[item]))
+    print("{}: {}".format(item, dictionary[item]))
 # up: ↑
 # down: ↓
 # right: →
@@ -71,5 +71,5 @@ print(b)  # frozenset({1, 2, 3, 5, 8})
 # list_1 = [exp for item in iterable (if conditional)]
 list_1 = [i for i in range(1, 101) if i % 2 == 0]  # [2, 4, 6,..., 100]
 list_1 = [
-	(i, i) for i in range(1, 101) if i % 2 == 0
+    (i, i) for i in range(1, 101) if i % 2 == 0
 ]  # [(2, 2), (4, 4),..., (100, 100)]

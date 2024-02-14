@@ -58,16 +58,16 @@ n = "385917"
 res = 0
 
 for i in n[:3]:
-	res += int(i)
+    res += int(i)
 
 for i in n[3:]:
-	res -= int(i)
+    res -= int(i)
 
 
 if res:
-	print("no")
+    print("no")
 else:
-	print("yes")
+    print("yes")
 
 
 """
@@ -84,6 +84,6 @@ b = 2
 c = 2
 
 if c <= b * a and (c % a == 0 or c % b == 0):
-	print("yes")
+    print("yes")
 else:
-	print("no")
+    print("no")
