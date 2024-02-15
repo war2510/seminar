@@ -8,9 +8,9 @@ print("\033[H\033[J")  # Очистка консоли
 
 
 def fibonacci(n):
-	if n == 0 or n == 1:
-		return 1
-	return fibonacci(n - 1) + fibonacci(n - 2)
+    if n == 0 or n == 1:
+        return 1
+    return fibonacci(n - 1) + fibonacci(n - 2)
 
 
 num = 5
@@ -24,9 +24,9 @@ print(f"{num}-ое число Фибоначчи = {fibonacci(num)}\n")
 
 
 def factorial(n):
-	if n <= 0:
-		return 1
-	return n * factorial(n - 1)
+    if n <= 0:
+        return 1
+    return n * factorial(n - 1)
 
 
 num = 5
@@ -41,12 +41,12 @@ print(f"Факториал {num} = {factorial(num)}\n")
 
 
 def change_max_to_min(list1):
-	max_N = max(list1)
-	min_N = min(list1)
-	for i in range(len(list1)):
-		if list1[i] == max_N:
-			list1[i] = min_N
-	return list1
+    max_N = max(list1)
+    min_N = min(list1)
+    for i in range(len(list1)):
+        if list1[i] == max_N:
+            list1[i] = min_N
+    return list1
 
 
 print("В списке заменить максимальное число на минимальное")
@@ -65,11 +65,11 @@ print()
 
 
 def is_prime(n, d=2):
-	if d * d > n:
-		return True
-	if n % d == 0:
-		return False
-	return is_prime(n, d + 1)
+    if d * d > n:
+        return True
+    if n % d == 0:
+        return False
+    return is_prime(n, d + 1)
 
 
 num = int(input("Введите n: "))
@@ -84,9 +84,9 @@ print()
 
 
 def f(arr, n):
-	if n == 0:
-		return ""
-	return f" {arr[n - 1]}" + f(arr, n - 1)
+    if n == 0:
+        return ""
+    return f" {arr[n - 1]}" + f(arr, n - 1)
 
 
 print("Надо вывести список в обратном порядке")

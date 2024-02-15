@@ -9,11 +9,11 @@ a = 2; b = 3 -> 8
 
 
 def f(a, b):
-	if b == 1:
-		return a
-	if b == 0:
-		return 1
-	return f(a, b - 1) * a
+    if b == 1:
+        return a
+    if b <= 0:
+        return 1
+    return f(a, b - 1) * a
 
 
 a = 5
@@ -27,10 +27,16 @@ print(f(a, b))  # 625
 """
 
 
+# def sum(a, b):
+#     if b == 0:
+#         return a
+#     return sum(a + 1, b - 1)
+
+
 def sum(a, b):
-	if b == 0:
-		return a
-	return sum(a + 1, b - 1)
+    if b == 0:
+        return a
+    return 1 + sum(a, b - 1)
 
 
 a = 3
