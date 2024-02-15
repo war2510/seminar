@@ -16,8 +16,8 @@ list_1 = [1, 2, 3, 4, 5]
 k = 6  # 5
 
 for i in sorted(list_1):
-    if i >= k:
-        break
+	if i >= k:
+		break
 print(i)
 
 """
@@ -41,19 +41,19 @@ print(i)
 Будем считать, что на вход подается только одно слово, которое содержит либо только английские, либо только русские буквы.
 """
 dic = {
-    1: "AEIOULNSTRАВЕИНОРСТ",
-    2: "DGДКЛМПУ",
-    3: "BCMPБГЁЬЯ",
-    4: "FHVWYЙЫ",
-    5: "KЖЗХЦЧ",
-    8: "JXШЭЮ",
-    10: "QZФЩЪ"}
+	1: "AEIOULNSTRАВЕИНОРСТ",
+	2: "DGДКЛМПУ",
+	3: "BCMPБГЁЬЯ",
+	4: "FHVWYЙЫ",
+	5: "KЖЗХЦЧ",
+	8: "JXШЭЮ",
+	10: "QZФЩЪ"}
 
 k = "ноутбук"
 cost = 0
 for i in k.upper():
-    for k, v in dic.items():
-        if i in v:
-            cost += k
+	for k, v in dic.items():
+		if i in v:
+			cost += k
 
 print(cost)
