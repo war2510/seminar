@@ -25,6 +25,46 @@ print("\n")
 
 
 """
+Задача 4: Права доступа
+Для каждого допустимого запроса программа должна возвращать OK, для недопустимого – Access denied.
+
+Пример вывода:
+Access denied
+OK
+OK
+OK
+OK
+"""
+
+rights = {"write": "W", "read": "R", "execute": "X"}
+rights_f = ["python.exe X", "book.txt R W", "notebook.exe R W X"]
+q_access = [
+    "read python.exe",
+    "read book.txt",
+    "write notebook.exe",
+    "execute notebook.exe",
+    "write book.txt",
+]
+
+dict_rights_f = {}
+for i in rights_f:
+    for j in range(1, len(i.split())):
+        if i.split()[0] in dict_rights_f:
+            dict_rights_f[i.split()[0]].append(i.split()[j])
+        else:
+            dict_rights_f[i.split()[0]] = [i.split()[j]]
+
+for i in q_access:
+    r = rights[i.split()[0]]
+    if i.split()[1] in dict_rights_f and r in dict_rights_f[i.split()[1]]:
+        print("OK")
+    else:
+        print("Access denied")
+
+print("\n")
+
+
+"""
 Задача 5: Продажи
 Напишите программу, которая подсчитывает количество единиц товаров, приобретенных покупателями онлайн-магазина.
 """
@@ -120,3 +160,51 @@ rare_words = [word for word in word_count if word_count[word] == min_count]
 min_rare_word = min(rare_words)
 
 print(min_rare_word)
+print("\n")
+
+"""
+Напишите программу, которая принимает на вход две строки и определяет, являются ли они анаграммами.
+Знаки препинания, пробелы и регистр при этом игнорируются.
+"""
+
+s1 = "Цари, вино и сало."
+s2 = "Лисица и ворона."
+
+s1 = sorted(s1.replace(",", "").replace(".", "").replace(" ", "").lower())
+s2 = sorted(s2.replace(",", "").replace(".", "").replace(" ", "").lower())
+
+if s1 == s2:
+    print("YES")
+else:
+    print("NO")
+
+
+"""
+Задача 11: Расшифровка
+На вход программе подается:
+1. Зашифрованная строка.
+2. N – число букв в словаре.
+3. N строк, в которых в формате «буква: частота» указывается, сколько раз каждая буква встречается в слове.
+Программа выводит расшифрованное слово.
+Пример ввода:
+
+
+Пример вывода:
+banana
+
+"""
+crypt_str = "?*!*!*"
+n = 3
+dic_str = ["b: 1", "a: 3", "n: 2"]
+
+dic_str = dict(dic_str)
+print(dic_str)
+
+"""
+Задача 12: Запрос
+Напишите функцию, которая принимает словарь с параметрами и возвращает строку запроса, сформированную из отсортированных в лексикографическом порядке параметров.
+Пример:
+Код print(query({'course': 'python', 'lesson': 2, 'challenge': 17})) должен возвращать строку:
+challenge=17&course=python&lesson=2
+    
+"""
