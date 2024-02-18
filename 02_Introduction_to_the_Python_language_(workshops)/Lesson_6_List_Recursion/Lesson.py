@@ -102,7 +102,7 @@ list1 = [
 find_str = "anton"
 
 
-# Вариант 1 строка
+# Вариант 1: Линейный поиск
 count = 0
 
 for i in range(len(list1)):
@@ -116,7 +116,7 @@ for i in range(len(list1)):
 print()
 
 
-# Вариант 2 словарь
+# Вариант 2: Использование словаря
 count = 0
 # dict = {0: "a", 1: "n", 2: "t", 3: "o", 4: "n"}
 dict = {i: find_str[i] for i in range(len(find_str))}
@@ -132,7 +132,7 @@ for i in range(len(list1)):
 print()
 
 
-# Вариант 3 рекурсия
+# Вариант 3: Рекурсия
 def is_f(str, f):
     if len(f) == 0:
         return True

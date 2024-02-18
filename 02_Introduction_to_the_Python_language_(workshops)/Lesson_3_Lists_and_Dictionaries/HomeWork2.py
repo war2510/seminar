@@ -14,13 +14,21 @@ emails = {
     "harvard.edu": ["john.doe", "mark.zuckerberg", "helen_hunt"],
     "mail.ru": ["roman.kolosov", "ilya_gromov", "masha.yashkina"],
 }
-list1 = list()
 
-for k, v in emails.items():
-    for i in v:
-        list1.append(f"{i}@{k}")
-list1.sort()
-print(*list1, sep="\n")
+# Создаем список для хранения всех email-адресов
+email_addresses = []
+
+for domain, users in emails.items():
+    for user in users:
+        email_addresses.append(f"{user}@{domain}")
+
+# Сортируем список email-адресов
+email_addresses.sort()
+
+# Выводим отсортированные email-адреса, каждый на новой строке
+for email in email_addresses:
+    print(email)
+
 print("\n")
 
 
@@ -46,51 +54,69 @@ q_access = [
     "write book.txt",
 ]
 
+# Создание словаря с правами доступа к файлам
 dict_rights_f = {}
-for i in rights_f:
-    for j in range(1, len(i.split())):
-        if i.split()[0] in dict_rights_f:
-            dict_rights_f[i.split()[0]].append(i.split()[j])
-        else:
-            dict_rights_f[i.split()[0]] = [i.split()[j]]
+for entry in rights_f:
+    parts = entry.split()
+    filename = parts[0]
+    file_rights = parts[1:]
+    dict_rights_f[filename] = file_rights
 
-for i in q_access:
-    r = rights[i.split()[0]]
-    if i.split()[1] in dict_rights_f and r in dict_rights_f[i.split()[1]]:
+# Проверка запросов на доступ
+for query in q_access:
+    action, filename = query.split()
+    if filename in dict_rights_f and rights[action] in dict_rights_f[filename]:
         print("OK")
     else:
         print("Access denied")
+
 
 print("\n")
 
 
 """
 Задача 5: Продажи
-Напишите программу, которая подсчитывает количество единиц товаров, приобретенных покупателями онлайн-магазина.
+Напишите программу для подсчета количества единиц каждого вида товара из приобретенных каждым покупателем интернет-магазина.
+Программа должна вывести список всех покупателей в лексикографическом порядке, после имени каждого покупателя — двоеточие, затем список названий всех приобретенных им товаров в лексикографическом порядке, после названия каждого товара — количество единиц товара. Информация о каждом товаре выводится на отдельной строке.
+Примечание. Обратите внимание на второй тест. Если позиции товаров повторяются, то в итоговый список попадает суммарное количество товара по данной позиции.
+
+Input:
+7
+Вячеслав Ручка 1
+Филипп Ручка 1
+Виктория Перо 3
+Вячеслав Линейка 4
+Виктория Тетрадь 7
+Вячеслав Ручка 29
+Филипп Циркуль 1
+Sample Output 2:
+
+Output:
+Виктория:
+Перо 3
+Тетрадь 7
+Вячеслав:
+Линейка 4
+Ручка 30
+Филипп:
+Ручка 1
+Циркуль 1
 """
-s = [
-    "Сергей Карандаш 3",
-    "Андрей Тетрадь 5",
-    "Юлия Линейка 1",
-    "Сергей Ручка 2",
-    "Юлия Книга 4",
-]
 
-word_count = {}
+purchases = {}
 
-for sell in s:
-    a, b, c = sell.split()
-    if a in word_count:
-        word_count[a].append(f"{b} {c}")
-    else:
-        word_count[a] = [f"{b} {c}"]
+n = int(input())
+for _ in range(n):
+    parts = input().split()
+    name, item, count = parts[0], parts[1], int(parts[2])
+    # Создаем вложенный словарь, если он еще не существует, и обновляем количество
+    purchases.setdefault(name, {}).setdefault(item, 0)
+    purchases[name][item] += count
 
-
-for k, v in word_count.items():
-    print(f"{k}:")
-    for i in v:
-        print(i)
-
+for name in sorted(purchases):
+    print(f"{name}:")
+    for item in sorted(purchases[name]):
+        print(f"{item} {purchases[name][item]}")
 print("\n\n")
 
 
@@ -118,19 +144,18 @@ cats = [
     ("Гарфилд", 3, "Александр", "Березуев"),
 ]
 
-word_count = {}
-for cat in cats:
-    a, b, c, d = cat
-    if f"{c} {d}" in word_count:
-        word_count[f"{c} {d}"].append(f"{a}, {b}")
-    else:
-        word_count[f"{c} {d}"] = [f"{a}, {b}"]
+owners = {}
+for name, age, owner_first, owner_last in cats:
+    owner_full_name = f"{owner_first} {owner_last}"
+    cat_info = f"{name}, {age}"
+    if owner_full_name not in owners:
+        owners[owner_full_name] = []
+    owners[owner_full_name].append(cat_info)
 
-for k, v in word_count.items():
-    print(f"{k}:", end=" ")
-    for i in v:
-        print(i, end="; ")
-    print()
+for owner, cats in owners.items():
+    cats_str = "; ".join(cats)
+    print(f"{owner}: {cats_str}")
+
 
 print("\n")
 
@@ -170,14 +195,25 @@ print("\n")
 s1 = "Цари, вино и сало."
 s2 = "Лисица и ворона."
 
-s1 = sorted(s1.replace(",", "").replace(".", "").replace(" ", "").lower())
-s2 = sorted(s2.replace(",", "").replace(".", "").replace(" ", "").lower())
+# 1 вариант
+set1 = sorted(s1.replace(",", "").replace(".", "").replace(" ", "").lower())
+set2 = sorted(s2.replace(",", "").replace(".", "").replace(" ", "").lower())
 
-if s1 == s2:
-    print("YES")
-else:
-    print("NO")
+print(("NO", "YES")[set1 == set2])
 
+# 2 вариант
+d = {}
+for c in s1.lower():
+    if c.isalpha():
+        d[c] = d.get(c, 0) + 1
+for c in s2.lower():
+    if c.isalpha():
+        d[c] = d.get(c, 0) - 1
+
+print(("NO", "YES")[set(d.values()) == {0}])
+
+
+print("\n")
 
 """
 Задача 11: Расшифровка
@@ -195,16 +231,110 @@ banana
 """
 crypt_str = "?*!*!*"
 n = 3
-dic_str = ["b: 1", "a: 3", "n: 2"]
+str_data = ["b: 1", "a: 3", "n: 2"]
 
-dic_str = dict(dic_str)
-print(dic_str)
+# Создаем словарь для хранения частоты букв
+dic_str = {line.split(": ")[0]: int(line.split(": ")[1]) for line in str_data}
+
+# Создаем обратный словарь для расшифровки (частота: буква)
+freq_to_letter = {v: k for k, v in dic_str.items()}
+
+# Создаем словарь для хранения частоты символов в зашифрованной строке
+dic_crypt = {}
+for symbol in crypt_str:
+    if symbol in dic_crypt:
+        dic_crypt[symbol] += 1
+    else:
+        dic_crypt[symbol] = 1
+
+# Расшифровываем строку
+decrypted_str = ""
+for symbol in crypt_str:
+    symbol_freq = dic_crypt[symbol]
+    if symbol_freq in freq_to_letter:
+        decrypted_str += freq_to_letter[symbol_freq]
+
+print(decrypted_str)
+
+print("\n")
+
 
 """
-Задача 12: Запрос
-Напишите функцию, которая принимает словарь с параметрами и возвращает строку запроса, сформированную из отсортированных в лексикографическом порядке параметров.
-Пример:
-Код print(query({'course': 'python', 'lesson': 2, 'challenge': 17})) должен возвращать строку:
-challenge=17&course=python&lesson=2
-    
+На вход программе подается количество пар синонимов n. Далее следует n строк, каждая строка содержит два слова-синонима.
+После этого следует одно слово, синоним которого надо найти.
+
+Формат выходных данных
+Программа должна вывести одно слово, синоним введенного.
 """
+n = 4
+in_str = [
+    "Awful Terrible",
+    "Beautiful Pretty",
+    "Great Excellent",
+    "Generous Bountiful",
+    "Pretty",
+]
+d = dict((in_str[i].split() for i in range(n)))  # Создаем словарь из списка
+ad = {v: k for k, v in d.items()}  # Создаем обратный словарь
+
+key = in_str[n]
+print(
+    d.get(key, ad.get(key))
+)  # Выводим значение по ключу из исходного словаря, если его нет, то из обратного
+
+print("\n")
+
+
+"""
+Программа получает на вход количество стран n. Далее идет n строк, каждая строка начинается с названия страны,
+ затем идут названия городов этой страны. В следующей строке записано число m, далее идут
+m запросов — названия каких-то m городов, из перечисленных выше.
+
+Программа должна вывести название страны, в которой находится данный город
+"""
+n = 2
+n_str = [
+    "Германия Берлин Мюнхен Гамбург Дортмунд",
+    "Нидерланды Амстердам Гаага Роттердам Алкмар",
+]
+m = 4
+m_str = ["Амстердам", "Гамбург", "Гаага", "Алкмар"]
+
+d = {}
+lis = [n_str[i].split() for i in range(n)]
+for i in range(n):
+    d.update(dict.fromkeys(lis[i][1:], lis[i][0]))
+
+for i in range(m):
+    print(d[m_str[i]])
+
+print("\n")
+
+"""
+n — количество номеров телефонов, информацию о которых Тимур сохранил в телефонной книге.
+В следующих n строках заданы телефоны и имена их владельцев через пробел.
+m — количество поисковых запросов от Тимура.
+В следующих m строках записаны сами запросы, по одному на строке. Каждый запрос — это имя друга, чьи телефоны Тимур хочет найти.
+
+Формат выходных данных
+Для каждого запроса от Тимура выведите в отдельной строке все телефоны, принадлежащие человеку с этим именем (независимо от регистра имени). Если в телефонной книге нет телефонов человека с таким именем, выведите в соответствующей строке «абонент не найден» (без кавычек).
+Примечание 1. Телефоны одного человека выводите в одну строку через пробел в том порядке, в каком они были заданы во входных данных.
+"""
+n = 3
+n_str = ["79184219577 Женя", "79194249271 Руслан", "79281234567 Женя"]
+m = 3
+m_str = ["Руслан", "женя", "Вася"]
+
+d = dict(n_str[i].split() for i in range(n))  # Создаем словарь из списка
+for s in m_str:
+    count = 0
+    for k, v in d.items():
+        if v.lower() == s.lower():
+            print(k, end=" ")
+            count = 1
+    if count == 0:
+        print("абонент не найден")
+    else:
+        print()
+
+print("\n")

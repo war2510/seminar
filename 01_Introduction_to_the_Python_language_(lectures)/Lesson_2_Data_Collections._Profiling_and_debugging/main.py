@@ -30,7 +30,7 @@ print(dictionary["left"])  # ⇐
 print(dictionary["type"])  # KeyError: 'type'
 del dictionary["left"]  # удаление элемента
 for item in dictionary:  # for (k,v) in dictionary.items():
-	print("{}: {}".format(item, dictionary[item]))
+    print("{}: {}".format(item, dictionary[item]))
 # up: ↑
 # down: ↓
 # right: →
@@ -71,5 +71,19 @@ print(b)  # frozenset({1, 2, 3, 5, 8})
 # list_1 = [exp for item in iterable (if conditional)]
 list_1 = [i for i in range(1, 101) if i % 2 == 0]  # [2, 4, 6,..., 100]
 list_1 = [
-	(i, i) for i in range(1, 101) if i % 2 == 0
+    (i, i) for i in range(1, 101) if i % 2 == 0
 ]  # [(2, 2), (4, 4),..., (100, 100)]
+
+# Словари
+squares = {i: i**2 for i in range(6)}
+squares = {i: i**2 for i in range(10) if i % 2 == 0}
+
+# Мы можем использовать вложенные циклы для создания словарей:
+squares = {i: {j: j**2 for j in range(i + 1)} for i in range(5)}
+
+# Общий вид генератора словаря следующий:
+# {ключ: значение for переменная in последовательность}
+# где переменная — имя некоторой переменной,
+# последовательность — последовательность значений, которые она принимает (любой итерируемый объект),
+# ключ: значение — некоторое выражение, как правило, зависящее от использованной в списочном выражении переменной,
+# которой будут заполнены элементы словаря.
