@@ -34,18 +34,11 @@ print_operation_table(lambda x, y: x * y, 9, 9)
 """
 stroka = "пара-ра-рам рам-пам-папам па-ра-па-дам"
 
-
-def ritm(s):
+if len(stroka.split()) < 2:
+    print("Количество фраз должно быть больше одной!")
+else:
     count_vowels = [
         sum(1 for char in phrase.lower() if char in "аеёиоуыэюя")
-        for phrase in s.split()
+        for phrase in stroka.split()
     ]
-    if len(count_vowels) < 2:
-        return "Количество фраз должно быть больше одной!"
-    elif min(count_vowels) == max(count_vowels):
-        return "Парам пам-пам"
-    else:
-        return "Пам парам"
-
-
-print(ritm(stroka))
+    print("Парам пам-пам" if min(count_vowels) == max(count_vowels) else "Пам парам")

@@ -178,3 +178,65 @@ print(*sorted(num), sep="\n")
 
 sys.stdin = original_stdin
 print()
+
+"""
+На вход программе подается два комплексных числа, каждое на отдельной строке.
+Программа должна вывести ответ на задачу.
+"""
+input_data = "1+2j\n-2+4j"
+sys.stdin = StringIO(input_data)
+
+a, b = input(), input()
+
+for op in "+-*":
+    print(f'({a}) {op} ({b}) = {eval(f"complex(a){op}complex(b)")}')
+
+
+sys.stdin = original_stdin
+print()
+
+"""
+Комплексные числа хранятся в списке numbers. Дополните приведенный код так, чтобы он вывел комплексное число с наибольшим модулем
+и сам модуль числа на отдельных строках. Модуль комплексного числа можно вычислить с помощью встроенной функции abs()
+"""
+numbers = [
+    3 + 4j,
+    3 + 1j,
+    -7 + 3j,
+    4 + 8j,
+    -8 + 10j,
+    -3 + 2j,
+    3 - 2j,
+    -9 + 9j,
+    -1 - 1j,
+    -1 - 10j,
+    -20 + 15j,
+    -21 + 1j,
+    1j,
+    -3 + 8j,
+    4 - 6j,
+    8 + 2j,
+    2 + 3j,
+]
+print(*(lambda x: (x, abs(x)))(max(numbers, key=abs)), sep="\n")
+print()
+
+"""
+На вход программе подается натуральное число n и два комплексных числа z1 и z2, каждое на отдельной строке.
+Программа должна вывести результат вычисления выражения
+"""
+input_data = "1\n2+3j\n1+4j"
+sys.stdin = StringIO(input_data)
+
+n, z1, z2 = int(input()), input(), input()
+
+
+print(
+    complex(z1) ** n
+    + complex(z2) ** n
+    + complex(z1).conjugate() ** n
+    + complex(z2).conjugate() ** (n + 1)
+)
+
+sys.stdin = original_stdin
+print()
