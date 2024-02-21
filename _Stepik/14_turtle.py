@@ -6,8 +6,11 @@ original_stdin = sys.stdin
 
 import turtle
 
-
+# ----------------------------------------------------------------------------
 def signature():
+    """
+    Рисует подпись в правом нижнем углу экрана.
+    """
     import os
 
     text = "Rif.  " + os.path.basename(__file__)
@@ -17,6 +20,9 @@ def signature():
 
 
 def turtlette():
+    """
+    Рисует спираль из кругов.
+    """
     turtle.bgcolor("black")
     turtle.pencolor("white")
     turtle.pensize(1)
@@ -35,16 +41,19 @@ if __name__ == "__main__":
     print("This is a module with some functions for turtle graphics.")
     # turtlette()
 
-
-"""
-Напишите программу, которая рисует прямоугольник.
-Программу нужно оформить в виде функции rectangle(width, height), где width, height – ширина и высота прямоугольника.
-"""
+# ----------------------------------------------------------------------------
 input_data = "400\n200"
 sys.stdin = StringIO(input_data)
 
 
 def rectangle(width, height):
+    """
+    Рисует прямоугольник заданной ширины и высоты.
+
+    Args:
+        width (int): Ширина прямоугольника.
+        height (int): Высота прямоугольника.
+    """
     for _ in range(2):
         turtle.forward(width)
         turtle.left(90)
@@ -57,17 +66,18 @@ def rectangle(width, height):
 
 sys.stdin = original_stdin
 
-
-"""
-Напишите программу, которая рисует правильный треугольник.
-Программу нужно оформить в виде функции triangle(side), где side – длина стороны треугольника в пикселях.
-Величина каждого угла правильного треугольника равна 60 градусам
-"""
+# ----------------------------------------------------------------------------
 input_data = "200"
 sys.stdin = StringIO(input_data)
 
 
 def triangle(side):
+    """
+    Рисует правильный треугольник заданной длины стороны.
+
+    Args:
+        side (int): Длина стороны треугольника.
+    """
     for _ in range(3):
         turtle.forward(side)
         turtle.left(120)
@@ -78,10 +88,8 @@ def triangle(side):
 
 sys.stdin = original_stdin
 
-"""
-Напишите программу, которая рисует изображенную фигуру, состоящую из трех квадратов.
-Напишите функцию square(side), где side – длина стороны квадрата в пикселях.
-"""
+
+# ----------------------------------------------------------------------------
 input_data = "200"
 sys.stdin = StringIO(input_data)
 n = 16
@@ -89,6 +97,12 @@ g = 45
 
 
 def square(side):
+    """
+    Рисует фигуру, состоящую из трех квадратов.
+
+    Args:
+        side (int): Длина стороны квадрата.
+    """
     for _ in range(n):
         turtle.left(g)
         for _ in range(4):
@@ -101,8 +115,7 @@ square(int(input()))
 
 sys.stdin = original_stdin
 
-"""
-"""
+# ----------------------------------------------------------------------------
 
 import random
 
@@ -122,11 +135,15 @@ for i in range(60):
     turtle.left(21)
 turtle.done()
 
-"""
-"""
-
+# ----------------------------------------------------------------------------
 
 def sneg(size):
+    """
+    Рисует снежинку заданного размера.
+
+    Args:
+        size (int): Размер снежинки.
+    """
     for i in ["red", "yellow", "green", "orange", "blue", "purple"] * 2:
         turtle.color(i)
         turtle.forward(size)
@@ -138,12 +155,15 @@ def sneg(size):
 
 sneg(120)
 
-"""
-red star
-"""
-
+# ----------------------------------------------------------------------------
 
 def cccp(size):
+    """
+    Рисует красную звезду заданного размера.
+
+    Args:
+        size (int): Размер звезды.
+    """
     for _ in range(5):
         turtle.forward(size)
         turtle.right(144)
@@ -154,9 +174,8 @@ turtle.pensize(5)
 turtle.color("red")
 cccp(200)
 
-"""
-wotch ))
-"""
+# ----------------------------------------------------------------------------
+
 import turtle
 import datetime
 
@@ -201,9 +220,7 @@ turtle.backward(90)
 
 turtle.stamp()
 
-"""
-Спираль
-"""
+# ----------------------------------------------------------------------------
 
 colors = ["red", "blue", "yellow", "green", "purple", "orange"]
 s = 1
