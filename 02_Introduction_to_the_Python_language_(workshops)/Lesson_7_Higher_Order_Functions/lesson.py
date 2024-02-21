@@ -96,7 +96,7 @@ orb_max = max(list(map(lambda a: a[0] * a[1], S_orbit)))
 max_orbit = list(filter(lambda a: a[0] * a[1] == orb_max, S_orbit))
 
 print(*max_orbit)
-
+print()
 
 """
 Напишите функцию same_by(characteristic, objects), которая проверяет, все ли объекты имеют одинаковое значение
@@ -104,14 +104,15 @@ print(*max_orbit)
 отличается - то False. Для пустого набора объектов, функция должна возвращать True. Аргумент characteristic - это
 функция, которая принимает объект и вычисляет его характеристику.
 """
-values = [0, 10, 6, 8]
+values = [0, 11, 6, 8]
+
 
 
 def same_by(characteristic, objects):
-    return min(map(characteristic, objects)) == max(map(characteristic, objects))
+    return len(tuple(filter(characteristic, objects))) == len(objects)
+#     return min(map(characteristic, objects)) == max(map(characteristic, objects))
 
-
-if same_by(lambda x: x % 2, values):
-    print("sam")
+if same_by(lambda x: x % 2 == 0, values):
+    print("same")
 else:
     print("different")
