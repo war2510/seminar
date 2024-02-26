@@ -1,4 +1,5 @@
-from tkinter import Tk, Button
+from tkinter import Tk, Button, Entry, Label
+import re
 
 phone_book = []  # Глобальная переменная для хранения справочника
 
@@ -38,9 +39,25 @@ def findNumCmd(event):
     pass
 
 
+def is_valid(newval):
+    return re.match("^\+\d{0,11}$", newval) is not None
+
+
 def addCmd(event):
-    # Ваш код для добавления абонента
-    pass
+    global phone_book
+    fields = ["Фамилия", "Имя", "Телефон", "Описание"]
+
+    window = Tk()
+    window.title("Add contact")
+    window.geometry("250x200")
+
+    check = (window.register(is_valid), "%P")
+
+    phone_entry = Entry(validate="key", validatecommand=check)
+    phone_entry.pack(padx=5, pady=5, anchor=NW)
+
+    window.mainloop()
+    print("Справочник дополнен")
 
 
 def saveCmd(event):
@@ -54,6 +71,7 @@ def mainMenu():
     read_txt("phonebook.txt")
 
     root = Tk()
+    root.title("My phone book")
     # Создание и размещение кнопок
     """
     Использование параметра sticky в методе .grid() для выравнивания внутри сетки.
