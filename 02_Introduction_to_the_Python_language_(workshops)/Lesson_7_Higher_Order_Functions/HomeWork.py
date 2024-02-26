@@ -34,11 +34,45 @@ print_operation_table(lambda x, y: x * y, 9, 9)
 """
 stroka = "пара-ра-рам рам-пам-папам па-ра-па-дам"
 
-if len(stroka.split()) < 2:
+
+def ritm(phrase):
+    count_vowels = [
+        sum(1 for char in phrases.lower() if char in "аеёиоуыэюя")
+        for phrases in phrase.split()
+    ]
+    if len(count_vowels) < 2:
+        return "Количество фраз должно быть больше одной!"
+    elif len(set(count_vowels)) == 1:
+        return "Парам пам-пам"
+    else:
+        return "Пам парам"
+
+
+print(ritm(stroka))
+
+# Саиджалол Содиков (recursion)
+slova = stroka.split()
+kolvo_slogov = list()
+
+
+def check(list_str):
+    if len(list_str) <= 0:
+        return True
+    if list_str[0] == list_str[1]:
+        return check(list_str[1:])
+    return False
+
+
+if len(slova) <= 1:
     print("Количество фраз должно быть больше одной!")
 else:
-    count_vowels = [
-        sum(1 for char in phrase.lower() if char in "аеёиоуыэюя")
-        for phrase in stroka.split()
-    ]
-    print("Парам пам-пам" if min(count_vowels) == max(count_vowels) else "Пам парам")
+    for i in slova:
+        slogi_v_slove = 0
+        for j in i:
+            if j in "ёуеэоаыяию":
+                slogi_v_slove += 1
+        kolvo_slogov.append(slogi_v_slove)
+    if check(kolvo_slogov):
+        print("Парам пам-пам")
+    else:
+        print("Пам парам")
