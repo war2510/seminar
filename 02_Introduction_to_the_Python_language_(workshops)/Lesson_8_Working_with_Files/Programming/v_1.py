@@ -1,4 +1,15 @@
-from tkinter import Tk, Button, Entry, Label, Toplevel, messagebox, Text, Scrollbar, END
+from tkinter import (
+    Tk,
+    Button,
+    Entry,
+    Label,
+    Toplevel,
+    messagebox,
+    Text,
+    Scrollbar,
+    END,
+    Frame,
+)
 
 
 phone_book = []  # Глобальная переменная для хранения справочника
@@ -22,19 +33,30 @@ def read_txt(filename):
 def showDict(dictionary):
     show_window = Toplevel()
     show_window.title("Просмотр справочника")
-    text_area = Text(show_window, wrap="none")
-    scrollbar = Scrollbar(show_window, command=text_area.yview)
+
+    # Создаем фрейм для текстового поля и скроллбара, позволяя ему расширяться и заполнять окно, но оставляя место для кнопок
+    text_area_frame = Frame(show_window)
+    text_area_frame.pack(fill="both", expand=True)
+
+    text_area = Text(text_area_frame, wrap="none")
+    scrollbar = Scrollbar(text_area_frame, command=text_area.yview)
     text_area.configure(yscrollcommand=scrollbar.set)
     scrollbar.pack(side="right", fill="y")
-    text_area.pack(expand=True, fill="both")
+    text_area.pack(side="left", fill="both", expand=True)
 
     text_area.insert(END, "{:<15} {:<15} {:<15} {:<15}\n".format(*fields))
     text_area.insert(END, "-" * 60 + "\n")
-
     for record in dictionary:
         text_area.insert(END, "{:<15} {:<15} {:<15} {:<15}\n".format(*record.values()))
 
     text_area.config(state="disabled")
+
+    # Создаем отдельный фрейм для кнопок и размещаем его внизу, не позволяя ему расширяться или заполнять дополнительное пространство
+    button_frame = Frame(show_window)
+    button_frame.pack(fill="x", pady=5)  # Добавили отступ снизу для видимости
+
+    Button(button_frame, text="Изменить", command=on_edit).pack(side="left", padx=5)
+    Button(button_frame, text="Удалить", command=on_deleted).pack(side="right", padx=5)
 
 
 def searchCmd(search_field):
@@ -63,7 +85,7 @@ def searchCmd(search_field):
     )
 
 
-def addCmd():
+def addCmd(surname="", name="", phone="", description=""):
     def save_new_contact():
         record = {
             "Фамилия": surname_entry.get(),
@@ -164,3 +186,32 @@ def mainMenu():
     )
 
     root.mainloop()
+
+
+mainMenu()
+
+
+# def addCmd():  # Добавление абонента в справочник
+#     print("\033[H\033[J")  # Очистка консоли
+#     record = {}
+#     for field in fields:
+#         record[field] = input(f"Введите {field}: ")
+#     phone_book.append(record)
+#     print("Абонент добавлен в справочник")
+
+# def show_search_results():
+#     if len(search_book) == 0:
+#         messagebox.showinfo("Результат", "Записи не найдены")
+#     else:
+#         print_contacts(search_book, f"Найдено {len(search_book)} абонентов")
+
+# def searchCmd(search_field):  # Поиск абонента по фамилии или телефону
+#     print("\033[H\033[J")  # Очистка консоли
+#     search_value = input(f"Введите {search_field} для поиска: ").lower()
+
+#     find_contact(search_value, search_field)
+#     if len(search_book) == 0:
+#         print("Абонент не найден")
+#     else:
+#         s = f"Найдено {len(search_book)} абонентов с {search_field} содержащим {search_value}:\n"
+#         print_contacts(search_book, s)
