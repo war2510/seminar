@@ -6,7 +6,7 @@ phone_book, search_book = [], []
 filename1 = "phonebook.txt"
 filename2 = "phonebook.csv"
 fields = ["Фамилия", "Имя", "Телефон", "Описание"]
-button_options = {"padx": 5, "pady": 5, "sticky": "w", "ipadx": 10, "ipady": 10}
+button_options = {"padx": 5, "pady": 5, "ipadx": 10, "ipady": 10}
 
 
 # Чтение справочника из текстового файла/
@@ -30,13 +30,17 @@ def saveCmd(phone_book):
             s = ",".join(record.values())
             phout.write(f"{s}\n")
 
+    print("Справочник сохранён в текстовом формате")
+
+
+# Сохранение записи в текстовом формате/
+def saveCmdRec(record):
     with open(filename2, "w", encoding="utf-8") as phout:
         phout.write(",".join(fields) + "\n")
-        for record in phone_book:
-            s = ",".join(record.values())
-            phout.write(f"{s}\n")
+        s = ",".join(record.values())
+        phout.write(f"{s}\n")
 
-    print("Справочник сохранён в текстовом формате")
+    print("Запись сохранена в формате .CSV")
 
 
 # Сохранить и закончить работу/
@@ -104,32 +108,57 @@ def print_contacts(contacts, header_message):
             messagebox.showinfo("Результат", "Нет такого абонента")
             search_entry.delete(0, "end")
 
+    def saveCmd():
+        id = int(search_entry.get()) - 1
+        if id in range(len(contacts)):
+            saveCmdRec(contacts[id])
+            results_window.destroy()
+        else:
+            print("Нет такого абонента в справочнике")
+            messagebox.showinfo("Результат", "Нет такого абонента")
+            search_entry.delete(0, "end")
+
     results_window = Toplevel()
     results_window.title("Справочник абонентов")
     Label(results_window, text=header_message, font=("Courier", 12)).grid(
-        row=0, column=1, sticky="w"
+        row=0, column=0, sticky="w"
     )
     Label(
         results_window,
         text="ID  {:<15} {:<15} {:<10} {:<15}".format(*fields),
         font=("Courier", 10, "bold"),
-    ).grid(row=1, column=0, columnspan=3, sticky="w")
+    ).grid(row=1, column=0, sticky="w")
+
     for i, record in enumerate(contacts, start=1):
         Label(
             results_window,
             text="{:<3} {:<15} {:<15} {:<10} {:<15}".format(i, *record.values()),
             font=("Courier", 10),
-        ).grid(row=i + 1, column=0, columnspan=3, sticky="w")
-    Label(
-        results_window, text="ID записи для изменения", font=("Courier", 10, "bold")
-    ).grid(row=i + 2, column=1, sticky="w")
-    search_entry = Entry(results_window, width=10)
-    search_entry.grid(row=i + 3, column=1, **button_options)
-    Button(results_window, text="Изменить", command=editCmd).grid(
-        row=i + 3, column=0, **button_options
+        ).grid(row=i + 1, column=0, sticky="w")
+
+    Label(results_window, text="Введите ID записи:", font=("Courier", 10, "bold")).grid(
+        row=i + 2, column=0, sticky="w"
     )
-    Button(results_window, text="Удалить", command=delCmd).grid(
-        row=i + 3, column=2, **button_options
+
+    # Контейнер для нижней строки с кнопками и полем ввода
+    action_frame = Frame(results_window)
+    search_entry = Entry(action_frame, width=10)
+    action_frame.grid(row=i + 3, column=0, sticky="ew")  # Растягиваем на всю ширину
+    results_window.grid_columnconfigure(0, weight=1)  # Делаем колонку растягивающейся
+
+    # Поле ввода
+    search_entry = Entry(action_frame, width=10)
+    search_entry.pack(side=LEFT, expand=True, fill="x", **button_options)
+
+    # Кнопки
+    Button(action_frame, text="Изменить", command=editCmd).pack(
+        side=LEFT, expand=True, fill="x", **button_options
+    )
+    Button(action_frame, text="Скопировать", command=saveCmd).pack(
+        side=LEFT, expand=True, fill="x", **button_options
+    )
+    Button(action_frame, text="Удалить", command=delCmd).pack(
+        side=LEFT, expand=True, fill="x", **button_options
     )
 
 
