@@ -1,5 +1,5 @@
 from tkinter import Tk, Button, Toplevel, Label, Entry, messagebox, Frame
-from tkinter import TOP, X, LEFT, RIGHT, YES
+from tkinter import TOP, X, LEFT, RIGHT, BOTTOM, BOTH, YES, Canvas, Scrollbar
 
 
 phone_book, search_book = [], []
@@ -82,7 +82,7 @@ def open_edit_contact_form(contact):
 
     # Кнопка для сохранения изменений
     Button(edit_window, text="Сохранить", command=save_contact).pack(
-        side=TOP, padx=5, pady=5
+        side=TOP, **button_options
     )
 
 
@@ -108,7 +108,7 @@ def print_contacts(contacts, header_message):
             messagebox.showinfo("Результат", "Нет такого абонента")
             search_entry.delete(0, "end")
 
-    def saveCmd():
+    def saveCmd():  # Сохранение абонента в файле
         id = int(search_entry.get()) - 1
         if id in range(len(contacts)):
             saveCmdRec(contacts[id])
@@ -118,48 +118,62 @@ def print_contacts(contacts, header_message):
             messagebox.showinfo("Результат", "Нет такого абонента")
             search_entry.delete(0, "end")
 
+    # Создание основного окна для отображения контактов
     results_window = Toplevel()
     results_window.title("Справочник абонентов")
-    Label(results_window, text=header_message, font=("Courier", 12)).grid(
-        row=0, column=0, sticky="w"
-    )
+
+    # Верхняя непрокручиваемая область для заголовка и шапки таблицы
+    header_frame = Frame(results_window)
+    header_frame.pack(side=TOP, fill=X)
     Label(
-        results_window,
-        text="ID  {:<15} {:<15} {:<10} {:<15}".format(*fields),
+        header_frame, text=f"\n{header_message}\n", font=("Courier", 12, "bold")
+    ).pack(side=TOP, anchor="w", fill=X)
+    Label(
+        header_frame,
+        text=" ID | {:<15} | {:<15} | {:<10} | {:<25}".format(*fields)
+        + f"\n{'-' * 80}",
         font=("Courier", 10, "bold"),
-    ).grid(row=1, column=0, sticky="w")
+    ).pack(side=LEFT, anchor="w", fill=X)
 
-    for i, record in enumerate(contacts, start=1):
-        Label(
-            results_window,
-            text="{:<3} {:<15} {:<15} {:<10} {:<15}".format(i, *record.values()),
-            font=("Courier", 10),
-        ).grid(row=i + 1, column=0, sticky="w")
-
-    Label(results_window, text="Введите ID записи:", font=("Courier", 10, "bold")).grid(
-        row=i + 2, column=0, sticky="w"
-    )
-
-    # Контейнер для нижней строки с кнопками и полем ввода
+    # Нижняя непрокручиваемая область для ввода ID и кнопок
     action_frame = Frame(results_window)
+    action_frame.pack(side=BOTTOM, fill=X)
+    Label(action_frame, text=" Введите ID записи:", font=("Courier", 10, "bold")).pack(
+        side=LEFT
+    )
     search_entry = Entry(action_frame, width=10)
-    action_frame.grid(row=i + 3, column=0, sticky="ew")  # Растягиваем на всю ширину
-    results_window.grid_columnconfigure(0, weight=1)  # Делаем колонку растягивающейся
-
-    # Поле ввода
-    search_entry = Entry(action_frame, width=10)
-    search_entry.pack(side=LEFT, expand=True, fill="x", **button_options)
-
-    # Кнопки
+    search_entry.pack(side=LEFT, **button_options)
     Button(action_frame, text="Изменить", command=editCmd).pack(
-        side=LEFT, expand=True, fill="x", **button_options
+        side=LEFT, **button_options
     )
     Button(action_frame, text="Скопировать", command=saveCmd).pack(
-        side=LEFT, expand=True, fill="x", **button_options
+        side=LEFT, **button_options
     )
     Button(action_frame, text="Удалить", command=delCmd).pack(
-        side=LEFT, expand=True, fill="x", **button_options
+        side=LEFT, **button_options
     )
+
+    # Прокручиваемая область для контактов
+    canvas = Canvas(results_window)
+    scrollbar = Scrollbar(results_window, orient="vertical", command=canvas.yview)
+    scrollable_frame = Frame(canvas)
+    canvas.configure(yscrollcommand=scrollbar.set)
+    canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+    canvas.pack(side=LEFT, fill=BOTH, expand=True)
+    scrollbar.pack(side=RIGHT, fill="y")
+    canvas.bind(
+        "<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+    )
+
+    # Добавление контактов в прокручиваемую область
+    for i, record in enumerate(contacts, start=1):
+        Label(
+            scrollable_frame,
+            text=" {:<3}| {:<15} | {:<15} | {:<10} | {:<25}".format(
+                i, *record.values()
+            ),
+            font=("Courier", 10),
+        ).pack(anchor="w")
 
 
 # Найти и изменить/удалить абонента (find_contact, print_contacts, open_edit_contact_form)/
@@ -170,22 +184,25 @@ def searchCmdChu():
         for record in phone_book:
             if search_value.lower() in record[search_field].lower():
                 search_book.append(record)
-        print_contacts(search_book, "Результаты поиска")
+        print_contacts(
+            search_book, f"Результаты поиска {search_field} содержит {search_value}"
+        )
 
     search_window = Toplevel()
     search_window.title("Поиск абонента")
     Label(
         search_window,
-        text="Введите значение для поиска и нажмите соответствующую кнопку",
-    ).grid(row=0, column=0, columnspan=4, **button_options)
-    search_entry = Entry(search_window, width=60)
-    search_entry.grid(row=1, column=0, columnspan=4, **button_options)
+        text="\nВведите значение для поиска\nи нажмите соответствующую кнопку\n",
+        font=("Courier", 12),
+    ).pack(side=TOP, anchor="w", fill=X)
+    search_entry = Entry(search_window, width=30)
+    search_entry.pack(side=TOP, **button_options)
     for i, field in enumerate(fields):
         Button(
             search_window,
             text=field,
             command=lambda f=field: find_contact(search_entry.get(), f),
-        ).grid(row=2, column=i, **button_options)
+        ).pack(side=LEFT, **button_options)
 
 
 # Главное меню/
@@ -199,28 +216,28 @@ def mainMenu():
         root,
         text="Отобразить весь справочник",
         width=40,
-        command=lambda: print_contacts(phone_book, "Справочник абонентов"),
-    ).grid(row=1, column=0, **button_options)
+        command=lambda f="Справочник абонентов": print_contacts(phone_book, f),
+    ).pack(side=TOP, **button_options)
     Button(
         root,
         text="Найти и изменить/удалить абонента",
         width=40,
         command=searchCmdChu,
-    ).grid(row=2, column=0, **button_options)
+    ).pack(side=TOP, **button_options)
     Button(
         root,
         text="Добавить абонента в справочник",
         width=40,
         command=addCmd,
-    ).grid(row=3, column=0, **button_options)
+    ).pack(side=TOP, **button_options)
     Button(
         root,
         text="Сохранить справочник в текстовом формате",
         width=40,
         command=lambda: saveCmd(phone_book),
-    ).grid(row=4, column=0, **button_options)
-    Button(root, text="Сохранить и закончить работу", width=40, command=endCmd).grid(
-        row=5, column=0, **button_options
-    )
+    ).pack(side=TOP, **button_options)
+    Button(
+        root, text="Сохранить справочник и завершить работу", width=40, command=endCmd
+    ).pack(side=TOP, **button_options)
 
     root.mainloop()
